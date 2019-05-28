@@ -2,4 +2,4 @@
 
 Online Shopping project
 
-Technologies used: PHP, Laravel, MySQL
+Technologies used: PHP and MySQL
