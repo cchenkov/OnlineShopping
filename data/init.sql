@@ -6,9 +6,10 @@ USE onlinestore;
 CREATE TABLE User (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     Username VARCHAR(100) NOT NULL,
-    Email VARCHAR(100) NOT NULL,
     FirstName VARCHAR(30) NOT NULL,
     LastName VARCHAR(30) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    Password VARCHAR(20) NOT NULL,
     Address VARCHAR(100) NOT NULL,
     PhoneNumber VARCHAR(15) NOT NULL
 );

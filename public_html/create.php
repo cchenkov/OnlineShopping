@@ -1,4 +1,43 @@
+<?php
+
+if (isset($_POST['submit'])) {
+  require "../config.php";
+  require "../common.php";
+
+  try {
+    $connection = new PDO($dsn, $username, $password, $options);
+
+    $new_user = array(
+      "Username" => $_POST['username'],
+      "FirstName" => $_POST['firstname'],
+      "LastName" => $_POST['lastname'],
+      "Email" => $_POST['email'],
+      "Password" => $_POST['password'],
+      "Address" => $_POST['address'],
+      "PhoneNumber" => $_POST['phone']
+    );
+
+    $sql = sprintf(
+      "INSERT INTO %s (%s) values (%s)",
+      "User",
+      implode(", ", array_keys($new_user)),
+      ":" . implode(", :", array_keys($new_user))
+    );
+
+    $statement = $connection->prepare($sql);
+    $statement->execute($new_user);
+  } catch(PDOException $error) {
+    echo $sql . "<br>" . $error->getMessage();
+  }
+}
+
+?>
+
 <?php include "templates/header.php"; ?>
+
+<?php if (isset($_POST['submit']) && $statement) {
+  echo escape($_POST['firstname']); ?> successfully added
+<?php } ?>
 
 <h1>Add a user</h1>
 <form method="post">
@@ -15,13 +54,13 @@
   <input type="text" name="email" id="email">
   <br>
   <label for="password">Password</label>
-  <input type="password" name="password" id="pass">
+  <input type="password" name="password" id="password">
   <br>
   <label for="address">Address</label>
   <input type="text" name="address" id="address">
   <br>
-  <label for="number">Phone Number</label>
-  <input type="text" name="number" id="number">
+  <label for="phone">Phone Number</label>
+  <input type="text" name="phone" id="phone">
   <br>
   <br>
   <input type="submit" name="submit" value="Submit">
