@@ -10,6 +10,9 @@
     <li>
         <a href="createProduct.php"><strong>Create Product</strong></a>
     </li>
+    <li>
+        <a href="readProducts.php"><strong>Read Products</strong></a>
+    </li>
 </ul>
 
 <?php include "templates/footer.php"; ?>
