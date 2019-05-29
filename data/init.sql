@@ -24,7 +24,7 @@ CREATE TABLE Product (
     ImageSource VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE Cart(
+CREATE TABLE Cart (
 	Id INT AUTO_INCREMENT PRIMARY KEY,
     UserId INT NOT NULL,
     ProductId INT NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE Comment (
     FOREIGN KEY (ProductId) REFERENCES Product(Id)
 );
 
-CREATE TABLE Rating(
+CREATE TABLE Rating (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     UserId INT,
     ProductId INT,
