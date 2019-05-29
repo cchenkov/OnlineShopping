@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS onlinestore;
 CREATE DATABASE onlinestore;
 
 USE onlinestore;
@@ -10,6 +11,7 @@ CREATE TABLE User (
     LastName VARCHAR(30) NOT NULL,
     Address VARCHAR(100) NOT NULL,
     PhoneNumber VARCHAR(15) NOT NULL
+);
 
 CREATE TABLE Product(
 	Id INT AUTO_INCREMENT PRIMARY KEY,
