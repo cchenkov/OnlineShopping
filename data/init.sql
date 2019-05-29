@@ -15,7 +15,7 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Product (
-	ProductId INT AUTO_INCREMENT PRIMARY KEY,
+	Id INT AUTO_INCREMENT PRIMARY KEY,
     ProductName VARCHAR(100) NOT NULL,
     ProductType VARCHAR(20) NOT NULL,
     Description VARCHAR(100) NOT NULL,
@@ -25,31 +25,30 @@ CREATE TABLE Product (
 );
 
 CREATE TABLE Cart(
-	CardId INT AUTO_INCREMENT PRIMARY KEY,
-    MemberId INT NOT NULL,
+	Id INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NOT NULL,
     ProductId INT NOT NULL,
     Quantity INT NOT NULL,
-    FOREIGN KEY (MemberId) REFERENCES User(Id),
-    FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
+    FOREIGN KEY (UserId) REFERENCES User(Id),
+    FOREIGN KEY (ProductId) REFERENCES Product(Id)
 );
 
 CREATE TABLE Comment (
     Id INT AUTO_INCREMENT PRIMARY KEY,
-    User_id INT,
-    Product_id INT,
+    UserId INT,
+    ProductId INT,
     Message VARCHAR(100),
     
-    FOREIGN KEY (User_id) REFERENCES User(Id),
-    FOREIGN KEY (Product_Id) REFERENCES Product(Id)
+    FOREIGN KEY (UserId) REFERENCES User(Id),
+    FOREIGN KEY (ProductId) REFERENCES Product(Id)
 );
 
 CREATE TABLE Rating(
     Id INT AUTO_INCREMENT PRIMARY KEY,
-    User_id INT,
-    Product_id INT,
+    UserId INT,
+    ProductId INT,
     Value INT,
     
-    FOREIGN KEY (User_id) REFERENCES User(Id),
-    FOREIGN KEY (Product_Id) REFERENCES Product(Id)
-
+    FOREIGN KEY (UserId) REFERENCES User(Id),
+    FOREIGN KEY (ProductId) REFERENCES Product(Id)
 );
