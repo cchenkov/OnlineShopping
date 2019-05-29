@@ -13,35 +13,6 @@ CREATE TABLE User (
     PhoneNumber VARCHAR(15) NOT NULL
 );
 
-CREATE TABLE Product(
-	Id INT AUTO_INCREMENT PRIMARY KEY,
-	Name VARCHAR(20),
-	User_id INT,
-	
-	FOREIGN KEY (User_id) REFERENCES User(Id)
-);
-
-CREATE TABLE Comment (
-	Id INT AUTO_INCREMENT PRIMARY KEY,
-    User_id INT,
-    Product_id INT,
-    Message VARCHAR(100),
-    
-    FOREIGN KEY (User_id) REFERENCES User(Id),
-    FOREIGN KEY (Product_Id) REFERENCES Product(Id)
-);
-
-CREATE TABLE Rating(
-	Id INT AUTO_INCREMENT PRIMARY KEY,
-    User_id INT,
-    Product_id INT,
-    Value INT,
-    
-    FOREIGN KEY (User_id) REFERENCES User(Id),
-    FOREIGN KEY (Product_Id) REFERENCES Product(Id)
-
-);
-
 CREATE TABLE Product (
 	ProductId INT AUTO_INCREMENT PRIMARY KEY,
     ProductName VARCHAR(100) NOT NULL,
@@ -59,4 +30,25 @@ CREATE TABLE Cart(
     Quantity INT NOT NULL,
     FOREIGN KEY (MemberId) REFERENCES User(Id),
     FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
+);
+
+CREATE TABLE Comment (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    User_id INT,
+    Product_id INT,
+    Message VARCHAR(100),
+    
+    FOREIGN KEY (User_id) REFERENCES User(Id),
+    FOREIGN KEY (Product_Id) REFERENCES Product(Id)
+);
+
+CREATE TABLE Rating(
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    User_id INT,
+    Product_id INT,
+    Value INT,
+    
+    FOREIGN KEY (User_id) REFERENCES User(Id),
+    FOREIGN KEY (Product_Id) REFERENCES Product(Id)
+
 );
