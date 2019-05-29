@@ -1,6 +1,6 @@
 <?php include "templates/header.php"; ?>
 
-<h2>Find user</h2>
+<h2>Find User</h2>
 
 <form method="post">
     <label for="username">Username</label>
