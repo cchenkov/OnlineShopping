@@ -2,10 +2,13 @@
 
 <ul>
     <li>
-        <a href="create.php"><strong>Create</strong></a> - create user
+        <a href="create.php"><strong>Create User</strong></a> 
     </li>
     <li>
         <a href="read.php"><strong>Read</strong></a> - find a user
+    </li>
+    <li>
+        <a href="createProduct.php"><strong>Create Product</strong></a>
     </li>
 </ul>
 

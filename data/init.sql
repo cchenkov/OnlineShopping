@@ -1,5 +1,5 @@
 DROP DATABASE IF EXISTS onlinestore;
-CREATE DATABASE onlinestore;
+CREATE DATABASE onlinestore CHARSET 'utf8';
 
 USE onlinestore;
 
