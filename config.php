@@ -1,6 +1,7 @@
 <?php
 
 
+
 $host = "localhost";
 $username = "root";
 $password = "220069";
@@ -10,13 +11,5 @@ $options = array(
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 );
 
-$conn = mysqli_connect($host, $username, $password, $dbname);
-	
-	if(!$conn){
-		echo 'Connection error: '. mysqli_connect_error();
-    }else{
-		$sql = 'SELECT ProductName, Price, ImageSource, Id FROM Product ORDER BY Price';
-		$result = mysqli_query($conn, $sql);
-	}
 
 ?>

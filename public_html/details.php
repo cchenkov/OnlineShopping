@@ -1,57 +1,27 @@
+
 <?php
-if (isset($_POST['submit'])) {
-  require "../config.php";
-  require "../common.php";
+    require "../common.php";
+    require "../config.php";
+    $conn = mysqli_connect($host, $username, $password, $dbname);
+	
+	if(!$conn){
+		echo 'Connection error: '. mysqli_connect_error();
+    }else{
+		
+        if(isset($_GET['Id'])){
+            $Id = mysqli_real_escape_string($conn, $_GET['Id']);
 
-  try {
-    $connection = new PDO($dsn, $username, $password, $options);
- 
-    $new_comment = array(
-      "Message" => $_POST['comment'],
-      //"ProductId" => $_POST[$this->product->id]
-    );
+            $sql = "SELECT * FROM Product WHERE Id = $Id";
 
-    $sql = sprintf(
-      "INSERT INTO %s (%s) values (%s)",
-      "Comment",
-      implode(", ", array_keys($new_comment)),
-      ":" . implode(", :", array_keys($new_comment))
-    );
+            $result = mysqli_query($conn, $sql);
 
-    $statement = $connection->prepare($sql);
-    $statement->execute($new_comment);
-  } catch(PDOException $error) {
-    echo $sql . "<br>" . $error->getMessage();
-  }
-}
+            $product = mysqli_fetch_assoc($result);//for one record
 
-if (isset($_POST['rate'])) {
-  require "../config.php";
-  require "../common.php";
-
-  try {
-    $connection = new PDO($dsn, $username, $password, $options);
- 
-    $new_rating = array(
-      "Value" => $_POST['rating'],
-      //"ProductId" => $_POST[$this->product->id]
-    );
-
-    $sql = sprintf(
-      "INSERT INTO %s (%s) values (%s)",
-      "Rating",
-      implode(", ", array_keys($new_rating)),
-      ":" . implode(", :", array_keys($new_rating))
-    );
-
-    $statement = $connection->prepare($sql);
-    $statement->execute($new_rating);
-  } catch(PDOException $error) {
-    echo $sql . "<br>" . $error->getMessage();
-  }
-}
+        }
+	}
 
 ?>
+    
 
 <!DOCTYPE html>
 <html lang="en">
@@ -75,9 +45,20 @@ if (isset($_POST['rate'])) {
 		}
     </style>
 
-</head>
-<body>
     <h2>Details</h2>
+
+    <?php if($product): ?>
+        <h4><?php echo htmlspecialchars($product['ProductName']); ?></h4>
+        <p>Type: <?php echo htmlspecialchars($product['ProductType']); ?></p>
+        <p>Description: <?php echo htmlspecialchars($product['Descriptoin']); ?></p>
+        <p>Stock: <?php echo htmlspecialchars($product['Stock']); ?></p>
+        <p>Price: <?php echo htmlspecialchars($product['Price']); ?></p>
+        <p>Image:</p>
+
+    <?php else: 
+     
+    ?>
+    <?php endif; ?>
 
 	<?php if (isset($_POST['submit']) && $statement) {
 	  echo escape($_POST['name']); ?> successfully added
