@@ -3,8 +3,8 @@
 
 
 $host = "localhost";
-$username = "root";
-$password = "220069";
+$username = "tsenko";
+$password = "Helicopter_1500";
 $dbname = "onlinestore";
 $dsn = "mysql:host=$host;dbname=$dbname";
 $options = array(
