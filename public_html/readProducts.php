@@ -14,7 +14,12 @@
 	
 	if ($result->num_rows > 0) {
 		while($row = $result->fetch_assoc()) {
-			echo "id: " . $row["Id"]. "<br> Name: " . $row["ProductName"]. "<br> " . $row["ImageSource"]. "<br> Price: " .  $row["Price"]. "<br><br>";
+			echo "id: " . $row["Id"]. "<br> Name: " .
+			 $row["ProductName"] ."<br> ".
+			 $row["ImageSource"].
+			"<br> Price: " .  $row["Price"]. "<br> ".  
+			'<a href="www.website.com/page.html">More Info</a>'.
+			"<br><br>";
 		}
 		
 	} else {
@@ -25,6 +30,8 @@
 
 
 ?>
+
+<a href="index.php">Back to home</a>
 
 
 
