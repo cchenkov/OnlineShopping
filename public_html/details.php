@@ -8,17 +8,7 @@
 		echo 'Connection error: '. mysqli_connect_error();
     }else{
 
-        if(isset($_POST['delete'])){
-            $id_to_delete = mysqli_real_escape_string($conn, $_POST['id_to_delete']);
-
-            $sql = "DELETE FROM Product WHERE Id = $id_to_delete";
-
-            if(mysqli_query($conn, $sql)){
-                header('Location: index.php');
-            }{
-                echo 'query error:'. mysqli_error($conn);
-            }
-        }
+        
 		
         if(isset($_GET['Id'])){
             $Id = mysqli_real_escape_string($conn, $_GET['Id']);
@@ -29,6 +19,18 @@
 
             $product = mysqli_fetch_assoc($result);//for one record
 
+        }
+
+        if(isset($_POST['delete'])){
+            $id_to_delete = mysqli_real_escape_string($conn, $_POST['id_to_delete']);
+
+            $sql = "DELETE FROM Product WHERE Id = $id_to_delete";
+
+            if(mysqli_query($conn, $sql)){
+                header('Location: index.php');
+            }{
+                echo 'query error:'. mysqli_error($conn);
+            }
         }
     }
     
