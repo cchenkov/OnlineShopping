@@ -129,30 +129,9 @@
 	<br>
 	<br>
 	</form>
-	<!--
-	<center><h1>Product Comemnts</h1></center>
-		<table>
-			<thead>
-			    <tr>
-			      <th>#</th>
-			      <th>Comment</th>
-			       <th>Delete</th>
-			    </tr>
-			</thead>
-			<tbody>
-				<?php foreach ($result as $row) : ?>
-				<tr>
-				  <td><?php echo escape($row["Id"]); ?></td>
-				  <td><?php echo escape($row["Message"]); ?></td>
-				  <td><a href="delete_comment.php?id=<?php echo escape($row["Id"]); ?>">Delete</a></td>
-				</tr>
-				<?php endforeach; ?>
-			</tbody>
-		</table>
-	-->
-	<a href="all_comments.php">View comments</a><br>
+	<?php echo "<a href=\"all_comments.php?product_id=".$_GET['Id']."\">View comments</a>";?>
 	<br>
-    <a href="index.php?Id=<?php echo $_GET['Id']; ?>">Back to home</a>
+	<a href="index.php?Id=<?php echo $Id; ?>">Back to home</a> 
 </body>
 
 <?php include "templates/footer.php"; ?>
