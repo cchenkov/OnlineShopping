@@ -2,8 +2,8 @@
 
 
 $host = "localhost";
-$username = "tsenko";
-$password = "Helicopter_1500";
+$username = "root";
+$password = "220069";
 $dbname = "onlinestore";
 $dsn = "mysql:host=$host;dbname=$dbname";
 $options = array(
