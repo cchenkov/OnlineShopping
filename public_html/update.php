@@ -75,12 +75,16 @@
 
 <form method="post">
     <?php foreach ($user as $key => $value) : 
-        if ($key == "Id") continue;
+        if ($key == "Id") { ?>
+            <input type="hidden" name="<?php echo $key; ?>" id="<?php echo $key; ?>" value="<?php echo escape($value); ?>">
+        <?php 
+            continue;
+        }
         ?>
         <label for="<?php echo $key; ?>">
             <?php echo ucfirst($key); ?>
         </label>
-        <input type="text" name="<?php echo $key; ?>" id="<?php echo $key; ?>" value="<?php echo escape($value); ?>" <?php echo ($key === 'Id' ? 'readonly' : null); ?>>
+        <input type="text" name="<?php echo $key; ?>" id="<?php echo $key; ?>" value="<?php echo escape($value); ?>">
         <br>
     <?php endforeach; ?>
     <br>
