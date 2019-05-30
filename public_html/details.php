@@ -7,6 +7,18 @@
 	if(!$conn){
 		echo 'Connection error: '. mysqli_connect_error();
     }else{
+
+        if(isset($_POST['delete'])){
+            $id_to_delete = mysqli_real_escape_string($conn, $_POST['id_to_delete']);
+
+            $sql = "DELETE FROM Product WHERE Id = $id_to_delete";
+
+            if(mysqli_query($conn, $sql)){
+                header('Location: index.php');
+            }{
+                echo 'query error:'. mysqli_error($conn);
+            }
+        }
 		
         if(isset($_GET['Id'])){
             $Id = mysqli_real_escape_string($conn, $_GET['Id']);
@@ -18,7 +30,9 @@
             $product = mysqli_fetch_assoc($result);//for one record
 
         }
-	}
+    }
+    
+
 
 ?>
     
@@ -55,9 +69,14 @@
         <p>Price: <?php echo htmlspecialchars($product['Price']); ?></p>
         <p>Image:</p>
 
-    <?php else: 
-     
-    ?>
+        <form action="details.php" method="POST">
+            <input type="hidden" name="id_to_delete" value="<?php echo $product['Id'] ?>">
+            <input type="submit" name="delete" value="Delete">
+        </form>
+
+    <?php else: ?> 
+      <h5>Doesnt exist!</h5>
+    
     <?php endif; ?>
 
 	<?php if (isset($_POST['submit']) && $statement) {
@@ -80,6 +99,7 @@
 	<br>
 	</form>
 	<button><a href="all_comments.php">Show all comments</a></button> 
+    <a href="index.php">Back to home</a>
 </body>
 
 <?php include "templates/footer.php"; ?>
