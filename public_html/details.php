@@ -1,4 +1,3 @@
-
 <?php
     require "../common.php";
     require "../config.php";
@@ -30,10 +29,48 @@
             $product = mysqli_fetch_assoc($result);//for one record
 
         }
+        if (isset($_POST['submit'])) {
+		  try {
+		    $connection = new PDO($dsn, $username, $password, $options);
+		 
+		    $new_comment = array(
+		      "Message" => $_POST['comment'],
+		      //"ProductId" => $_POST[$this->product->id]
+		    );
+		    $sql = sprintf(
+		      "INSERT INTO %s (%s) values (%s)",
+		      "Comment",
+		      implode(", ", array_keys($new_comment)),
+		      ":" . implode(", :", array_keys($new_comment))
+		    );
+		    $statement = $connection->prepare($sql);
+		    $statement->execute($new_comment);
+		  } catch(PDOException $error) {
+		    echo $sql . "<br>" . $error->getMessage();
+		  }
+		}
+		if (isset($_POST['rate'])) {
+
+		  try {
+		    $connection = new PDO($dsn, $username, $password, $options);
+		 
+		    $new_rating = array(
+		      "Value" => $_POST['rating'],
+		      //"ProductId" => $_POST[$this->product->id]
+		    );
+		    $sql = sprintf(
+		      "INSERT INTO %s (%s) values (%s)",
+		      "Rating",
+		      implode(", ", array_keys($new_rating)),
+		      ":" . implode(", :", array_keys($new_rating))
+		    );
+		    $statement = $connection->prepare($sql);
+		    $statement->execute($new_rating);
+		  } catch(PDOException $error) {
+		    echo $sql . "<br>" . $error->getMessage();
+		  }
+		}
     }
-    
-
-
 ?>
     
 
@@ -82,7 +119,7 @@
 	<?php if (isset($_POST['submit']) && $statement) {
 	  echo escape($_POST['name']); ?> successfully added
 	<?php } ?>
-    <form method="post">
+    <form method="POST">
 	<label for="comment">Add Comment</label>
 	<textarea name="comment" rows="5" cols="40"></textarea>
 	<br>
@@ -98,7 +135,25 @@
 	<br>
 	<br>
 	</form>
-	<button><a href="all_comments.php">Show all comments</a></button> 
+	<center><h1>Product Comemnts</h1></center>
+		<table>
+			<thead>
+			    <tr>
+			      <th>#</th>
+			      <th>Comment</th>
+			       <th>Delete</th>
+			    </tr>
+			</thead>
+			<tbody>
+				<?php foreach ($result as $row) : ?>
+				<tr>
+				  <td><?php echo escape($row["Id"]); ?></td>
+				  <td><?php echo escape($row["Message"]); ?></td>
+				  <td><a href="delete_comment.php?id=<?php echo escape($row["Id"]); ?>">Delete</a></td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
     <a href="index.php">Back to home</a>
 </body>
 
