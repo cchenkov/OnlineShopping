@@ -7,8 +7,6 @@
 		echo 'Connection error: '. mysqli_connect_error();
     }else{
 
-        
-		
         if(isset($_GET['Id'])){
             $Id = mysqli_real_escape_string($conn, $_GET['Id']);
 
@@ -20,6 +18,7 @@
 
         }
 
+        
         if (isset($_POST['submit'])) {
 		  try {
 		    $connection = new PDO($dsn, $username, $password, $options);
@@ -107,6 +106,8 @@
         <p>Stock: <?php echo htmlspecialchars($product['Stock']); ?></p>
         <p>Price: <?php echo htmlspecialchars($product['Price']); ?></p>
         <p>Image:</p>
+
+        <a href="updateProducts.php?Id=<?php echo $product["Id"]; ?>">Update</a>
 
         <form action="details.php" method="POST">
             <input type="hidden" name="id_to_delete" value="<?php echo $product['Id'] ?>">
