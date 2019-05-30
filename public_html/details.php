@@ -1,7 +1,7 @@
 
-
 <?php
     require "../common.php";
+    require "../config.php";
     $conn = mysqli_connect($host, $username, $password, $dbname);
 	
 	if(!$conn){
@@ -34,6 +34,28 @@
     <h2>Details</h2>
     
 
+
+	<?php if (isset($_POST['submit']) && $statement) {
+	  echo escape($_POST['name']); ?> successfully added
+	<?php } ?>
+    <form method="post">
+	<label for="comment">Add Comment</label>
+	<textarea name="comment" rows="5" cols="40"></textarea>
+	<br>
+	<br>
+	<input type="submit" name="submit" value="Submit Comment">
+	<br>
+	<br>
+	<label for="rating">Rating</label>
+  	<input type="number" name="rating" id="rating" min="1" max="5">
+	<br>
+	<br>
+	<input type="submit" name="rate" value="Rate">
+	<br>
+	<br>
+	</form>
+	<button><a href="all_comments.php">Show all comments</a></button> 
+</body>
 
 <?php include "templates/footer.php"; ?>
 </html>
