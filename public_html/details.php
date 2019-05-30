@@ -1,22 +1,39 @@
-<?php
 
+
+<?php
+    require "../common.php";
+    $conn = mysqli_connect($host, $username, $password, $dbname);
+	
+	if(!$conn){
+		echo 'Connection error: '. mysqli_connect_error();
+    }else{
+		
+        if(isset($_GET['id'])){
+            $Id = mysqli_real_escape_string($conn, $_GET['Id']);
+
+            $sql = "SELECT * FROM Product WHERE id = $id";
+
+            $result = mysqli_query($conn, $sql);
+
+            $product = mysql_fetch_assoc($result);//for one record
+
+            mysqli_free_result($result);
+            mysqli_close($conn);
+        }
+        $result = mysqli_query($conn, $sql);
+	}
 
 ?>
+    
+
 
 <!DOCTYPE html>
 <html lang="en">
 <?php include "templates/header.php"; ?>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
 
-
-</head>
-<body>
     <h2>Details</h2>
-</body>
+    
+
 
 <?php include "templates/footer.php"; ?>
 </html>
