@@ -11,8 +11,6 @@
 		$sql = 'SELECT ProductName, Price, ImageSource, Id FROM Product ORDER BY Price';
 		$result = mysqli_query($conn, $sql);
 	}
-
-
 	
 	if ($result->num_rows > 0) {
 		while($row = $result->fetch_assoc()) {
@@ -23,8 +21,6 @@
 			"<br> Price: " .  $row["Price"]. "<br> .
 			<br> <br>";
 			
-			
-
 		}
 		
 	} else {

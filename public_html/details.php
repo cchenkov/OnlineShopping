@@ -8,31 +8,41 @@
 		echo 'Connection error: '. mysqli_connect_error();
     }else{
 		
-        if(isset($_GET['id'])){
+        if(isset($_GET['Id'])){
             $Id = mysqli_real_escape_string($conn, $_GET['Id']);
 
-            $sql = "SELECT * FROM Product WHERE id = $id";
+            $sql = "SELECT * FROM Product WHERE Id = $Id";
 
             $result = mysqli_query($conn, $sql);
 
-            $product = mysql_fetch_assoc($result);//for one record
+            $product = mysqli_fetch_assoc($result);//for one record
 
-            mysqli_free_result($result);
-            mysqli_close($conn);
         }
-        $result = mysqli_query($conn, $sql);
 	}
 
 ?>
     
-
 
 <!DOCTYPE html>
 <html lang="en">
 <?php include "templates/header.php"; ?>
 
     <h2>Details</h2>
-    
+
+    <?php if($product): ?>
+        <h4><?php echo htmlspecialchars($product['ProductName']); ?></h4>
+        <p>Type: <?php echo htmlspecialchars($product['ProductType']); ?></p>
+        <p>Description: <?php echo htmlspecialchars($product['Descriptoin']); ?></p>
+        <p>Stock: <?php echo htmlspecialchars($product['Stock']); ?></p>
+        <p>Price: <?php echo htmlspecialchars($product['Price']); ?></p>
+        <p>Image:</p>
+
+    <?php else: 
+     
+    ?>
+    <?php endif; ?>
+
+
 
 
 	<?php if (isset($_POST['submit']) && $statement) {
