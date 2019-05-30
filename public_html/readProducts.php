@@ -18,7 +18,7 @@
 			 $row["ProductName"] ."<br> ".
 			 $row["ImageSource"].
 			"<br> Price: " .  $row["Price"]. "<br> ".  
-			'<a href="www.website.com/page.html">More Info</a>'.
+			'<a href="details.php?id=<?php echo $row["Id"]?>More Info</a>'.
 			"<br><br>";
 		}
 		
