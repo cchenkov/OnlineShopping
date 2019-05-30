@@ -16,10 +16,13 @@
 		while($row = $result->fetch_assoc()) {
 			echo "id: " . $row["Id"]. "<br> Name: " .
 			 $row["ProductName"] ."<br> ".
-			 $row["ImageSource"].
-			"<br> Price: " .  $row["Price"]. "<br> ".  
-			'<a href="details.php?id=<?php echo $row["Id"]?>More Info</a>'.
-			"<br><br>";
+			 $row["ImageSource"]."<br> ".
+			 '<a href="details.php?Id=' . $row["Id"] . '">More Info</a>'.
+			"<br> Price: " .  $row["Price"]. "<br> .
+			<br> <br>";
+			
+			
+
 		}
 		
 	} else {
