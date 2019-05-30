@@ -13,7 +13,7 @@ if (isset($_GET["id"])) {
     $statement->bindValue(':id', $id);
     $statement->execute();
 
-    header('Location: details.php');
+    header('Location: all_comments.php');
   } catch(PDOException $error) {
     echo $sql . "<br>" . $error->getMessage();
   }

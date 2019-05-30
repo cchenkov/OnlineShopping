@@ -6,27 +6,20 @@
 	if(!$conn){
 		echo 'Connection error: '. mysqli_connect_error();
     }else{
-
-        
-		
         if(isset($_GET['Id'])){
             $Id = mysqli_real_escape_string($conn, $_GET['Id']);
-
             $sql = "SELECT * FROM Product WHERE Id = $Id";
-
             $result = mysqli_query($conn, $sql);
-
-            $product = mysqli_fetch_assoc($result);//for one record
+            $product = mysqli_fetch_assoc($result);
 
         }
-
         if (isset($_POST['submit'])) {
 		  try {
 		    $connection = new PDO($dsn, $username, $password, $options);
-		 
+		 	$product_id = mysqli_real_escape_string($connection, $_GET['Id']);
 		    $new_comment = array(
 		      "Message" => $_POST['comment'],
-		      //"ProductId" => $_POST[$this->product->id]
+		      "ProductId" => $_GET['Id']
 		    );
 		    $sql = sprintf(
 		      "INSERT INTO %s (%s) values (%s)",
@@ -44,10 +37,10 @@
 
 		  try {
 		    $connection = new PDO($dsn, $username, $password, $options);
-		 
+		 	$product_id = mysqli_real_escape_string($connection, $_GET['Id']);
 		    $new_rating = array(
 		      "Value" => $_POST['rating'],
-		      //"ProductId" => $_POST[$this->product->id]
+		      "ProductId" => $_GET['Id']
 		    );
 		    $sql = sprintf(
 		      "INSERT INTO %s (%s) values (%s)",
@@ -74,7 +67,6 @@
         }
     }
 ?>
-    
 
 <!DOCTYPE html>
 <html lang="en">
@@ -137,6 +129,7 @@
 	<br>
 	<br>
 	</form>
+	<!--
 	<center><h1>Product Comemnts</h1></center>
 		<table>
 			<thead>
@@ -156,7 +149,10 @@
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-    <a href="index.php">Back to home</a>
+	-->
+	<a href="all_comments.php">View comments</a><br>
+	<br>
+    <a href="index.php?Id=<?php echo $_GET['Id']; ?>">Back to home</a>
 </body>
 
 <?php include "templates/footer.php"; ?>

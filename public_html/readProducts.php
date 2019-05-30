@@ -13,12 +13,11 @@
 	
 	if ($result->num_rows > 0) {
 		while($row = $result->fetch_assoc()) {
-			echo "id: " . $row["Id"]. "<br> Name: " .
-			 $row["ProductName"] ."<br> ".
+			echo "<h1>Name:</h1>" . $row["ProductName"] ."<br> ".
 			 $row["ImageSource"]."<br> ".
-			 '<a href="details.php?Id=' . $row["Id"] . '">More Info</a>'.
-			"<br> Price: " .  $row["Price"]. "<br> .
-			<br> <br>";
+			 '<a href="details.php?Id=' . $row["Id"] . '">More Info</a><br>'.
+			"<br><h3> Price: </h3>" .  $row["Price"]. "<p>-------------------------</p><br> 
+			<br><br>";
 		}
 		
 	} else {
