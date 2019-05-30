@@ -62,7 +62,18 @@ if (isset($_POST['rate'])) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="css/rating_stars.css">
     <title>Document</title>
+    <style type="text/css">
+    	table {
+		  border-collapse: collapse;
+		  width: 100%;
+		}
 
+		th, td {
+		  padding: 8px;
+		  text-align: left;
+		  border-bottom: 1px solid #ddd;
+		}
+    </style>
 
 </head>
 <body>
