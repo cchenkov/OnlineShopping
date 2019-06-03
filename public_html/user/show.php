@@ -1,34 +1,31 @@
 <?php
-    require "../config.php";
-    require "../common.php";
+	require "../../config.php";
+	require "../../common.php";
 
-    if (isset($_GET['id'])) {
+	if (isset($_GET['id'])) {
+		try {
+			$connection = new PDO($dsn, $username, $password, $options);
 
-        try {
+			$userId = $_GET['id'];
 
-            $connection = new PDO($dsn, $username, $password, $options);
+			$sql = "SELECT * FROM User WHERE Id = :userId";
 
-            $userId = $_GET['id'];
+			$statement = $connection->prepare($sql);
+			$statement->bindValue(':userId', $userId);
+			$statement->execute();
 
-            $sql = "SELECT * FROM User WHERE Id = :userId";
-
-            $statement = $connection->prepare($sql);
-            $statement->bindValue(':userId', $userId);
-            $statement->execute();
-
-            $user = $statement->fetch();
-
-        } catch (PDOException $error) {
-            echo $sql . "<br>" . $error->getMessage();
-        }
-    } else {
-        echo "Something went wrong!";
-        exit;
-    }
+			$user = $statement->fetch();
+		} catch (PDOException $error) {
+				echo $sql . "<br>" . $error->getMessage();
+		}
+	} else {
+		echo "Something went wrong!";
+		exit;
+	}
 
 ?>
 
-<?php include "templates/header.php"; ?>
+<?php include "../templates/header.php"; ?>
 
 <h1>Selected User</h1>
 
@@ -42,6 +39,6 @@
 <br>
 <br>
 
-<a href="index.php">Back to home</a>
+<a href="read.php">Back to all users</a>
 
-<?php include "templates/footer.php"; ?>
+<?php include "../templates/footer.php"; ?>

@@ -14,7 +14,6 @@
 
 		$result = $statement->fetchAll();
 	  	
-
 	} catch(PDOException $error) {
 	  echo $sql . "<br>" . $error->getMessage();
 	}
@@ -24,6 +23,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+	
 		<style type="text/css">
     	table {
 		  border-collapse: collapse;
@@ -36,8 +36,10 @@
 		  border-bottom: 1px solid #ddd;
 		}
     </style>
+
 	</head>
 	<body>
+
 		<?php if($comment): ?>
 		<center><h1>Product Comments</h1></center>
 		<table>
@@ -59,8 +61,8 @@
 			</tbody>
 		</table>
 		<?php else: ?> 
-	      <h5>Doesnt exist!</h5>
-	    
-	    <?php endif; ?>
+	    <h5>Doesnt exist!</h5>
+	  <?php endif; ?>
+
 	</body>
 </html>

@@ -12,7 +12,7 @@
 	}
 	
 	if ($result->num_rows > 0) {
-		while($row = $result->fetch_assoc()) {
+		while ($row = $result->fetch_assoc()) {
 			echo "<h1>Name:</h1>" . $row["ProductName"] ."<br> ".
 			 $row["ImageSource"]."<br> ".
 			 '<a href="details.php?Id=' . $row["Id"] . '">More Info</a><br>'.

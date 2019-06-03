@@ -1,70 +1,93 @@
 <?php
-    require "../config.php";
-    require "../common.php";
+	require "../../config.php";
+	require "../../common.php";
 
-    try {
+	$success = null;
 
-        $connection = new PDO($dsn, $username, $password, $options);
+	if (isset($_POST["submit"])) {
+			try {
+				$connection = new PDO($dsn, $username, $password, $options);
+		
+				$id = $_POST["submit"];
 
-        $sql = "SELECT * FROM User";
+				$sql = "DELETE FROM User WHERE Id = :id";
 
-        $statement = $connection->prepare($sql);
-        $statement->execute();
+				$statement = $connection->prepare($sql);
 
-        $result = $statement->fetchAll();
+				$statement->bindValue(':id', $id);
+				$statement->execute();
 
-    } catch (PDOException $error) {
-        echo $sql . "<br>" . $error->getMessage();
-    }
+				$success = "User successfully deleted";
+			} catch(PDOException $error) {
+				echo $sql . "<br>" . $error->getMessage();
+			}
+	}
+
+	try {
+		$connection = new PDO($dsn, $username, $password, $options);
+
+		$sql = "SELECT * FROM User";
+
+		$statement = $connection->prepare($sql);
+		$statement->execute();
+
+		$result = $statement->fetchAll();
+	} catch (PDOException $error) {
+		echo $sql . "<br>" . $error->getMessage();
+	}
 ?>
 
-<?php include "templates/header.php"; ?>
+<?php include "../templates/header.php"; ?>
 
 <head>
-    <link rel="stylesheet" href="css/table.css">
+  <link rel="stylesheet" href="../css/table.css">
 </head>
 
-<?php
-    if ($result && $statement->rowCount() > 0) { ?>
-        <h1>All Users</h1>
+<?php if ($success) echo $success; ?>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email Address</th>
-                    <th>Address</th>
-                    <th>Phone Number</th>
-                    <th>Show</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
+<form method="post">
+	<?php
+		if ($result && $statement->rowCount() > 0) { ?>
+			<h1>All Users</h1>
 
-            <tbody>
-                <?php foreach ($result as $row) { ?>
-                    <tr>
-                        <td><?php echo escape($row["Username"]); ?></td>
-                        <td><?php echo escape($row["FirstName"]); ?></td>
-                        <td><?php echo escape($row["LastName"]); ?></td>
-                        <td><?php echo escape($row["Email"]); ?></td>
-                        <td><?php echo escape($row["Address"]); ?></td>
-                        <td><?php echo escape($row["PhoneNumber"]); ?></td>
-                        <td><a href="show.php?id=<?php echo $row["Id"]; ?>">Show</a></td>
-                        <td><a href="update.php?id=<?php echo $row["Id"]; ?>">Edit</a></td>
-                        <td><a href="delete.php?id=<?php echo $row["Id"]; ?>">Delete</a></td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-    <?php } else { ?>
-        <blockquote>No users found.</blockquote>
-    <?php }
-?>
+			<table>
+				<thead>
+						<tr>
+								<th>Username</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th>Email Address</th>
+								<th>Address</th>
+								<th>Phone Number</th>
+								<th>Show</th>
+								<th>Edit</th>
+								<th>Delete</th>
+						</tr>
+				</thead>
+
+				<tbody>
+					<?php foreach ($result as $row) { ?>
+						<tr>
+							<td><?php echo escape($row["Username"]); ?></td>
+							<td><?php echo escape($row["FirstName"]); ?></td>
+							<td><?php echo escape($row["LastName"]); ?></td>
+							<td><?php echo escape($row["Email"]); ?></td>
+							<td><?php echo escape($row["Address"]); ?></td>
+							<td><?php echo escape($row["PhoneNumber"]); ?></td>
+							<td><a href="show.php?id=<?php echo $row["Id"]; ?>">Show</a></td>
+							<td><a href="update.php?id=<?php echo $row["Id"]; ?>">Edit</a></td>
+							<td><button type="submit" name="submit" value="<?php echo $row["Id"]; ?>">Delete</button></td>
+						</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		<?php } else { ?>
+				<blockquote>No users found.</blockquote>
+		<?php }
+	?>
+</form>
 
 <br>
-<a href="index.php">Back to home</a>
+<a href="../index.php">Back to home</a>
 
-<?php include "templates/footer.php"; ?>
+<?php include "../templates/footer.php"; ?>

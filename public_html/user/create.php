@@ -1,6 +1,6 @@
 <?php
-	require "../config.php";
-	require "../common.php";
+	require "../../config.php";
+	require "../../common.php";
 
 	if (isset($_POST['submit'])) {
 
@@ -34,7 +34,7 @@
 
 ?>
 
-<?php include "templates/header.php"; ?>
+<?php include "../templates/header.php"; ?>
 
 <?php if (isset($_POST['submit']) && $statement) {
 	echo escape($_POST['firstname']); ?> successfully added
@@ -69,6 +69,6 @@
 </form>
 
 <br>
-<a href="index.php">Back to home</a>
+<a href="../index.php">Back to home</a>
 
-<?php include "templates/footer.php"; ?>
+<?php include "../templates/footer.php"; ?>
