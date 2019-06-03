@@ -8,9 +8,6 @@
 		<a href="user/read.php"><strong>Read User</strong></a>
 	</li>
 	<li>
-		<a href="user/delete.php"><strong>Delete User</strong></a>
-	</li>
-	<li>
 		<a href="createProduct.php"><strong>Create Product</strong></a>
 	</li>
 	<li>

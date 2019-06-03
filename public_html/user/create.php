@@ -37,7 +37,7 @@
 <?php include "../templates/header.php"; ?>
 
 <?php if (isset($_POST['submit']) && $statement) {
-	echo escape($_POST['firstname']); ?> successfully added
+	echo escape($_POST['username']); ?> successfully added
 <?php } ?>
 
 <h1>Add a user</h1>

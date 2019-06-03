@@ -5,22 +5,22 @@
 	$success = null;
 
 	if (isset($_POST["submit"])) {
-			try {
-				$connection = new PDO($dsn, $username, $password, $options);
-		
-				$id = $_POST["submit"];
+		try {
+			$connection = new PDO($dsn, $username, $password, $options);
+	
+			$id = $_POST["submit"];
 
-				$sql = "DELETE FROM User WHERE Id = :id";
+			$sql = "DELETE FROM User WHERE Id = :id";
 
-				$statement = $connection->prepare($sql);
+			$statement = $connection->prepare($sql);
 
-				$statement->bindValue(':id', $id);
-				$statement->execute();
+			$statement->bindValue(':id', $id);
+			$statement->execute();
 
-				$success = "User successfully deleted";
-			} catch(PDOException $error) {
-				echo $sql . "<br>" . $error->getMessage();
-			}
+			$success = "User successfully deleted";
+		} catch(PDOException $error) {
+			echo $sql . "<br>" . $error->getMessage();
+		}
 	}
 
 	try {
@@ -43,7 +43,7 @@
   <link rel="stylesheet" href="../css/table.css">
 </head>
 
-<?php if ($success) echo $success; ?>
+<?php if ($success) echo escape($success) ?>
 
 <form method="post">
 	<?php
@@ -52,17 +52,17 @@
 
 			<table>
 				<thead>
-						<tr>
-								<th>Username</th>
-								<th>First Name</th>
-								<th>Last Name</th>
-								<th>Email Address</th>
-								<th>Address</th>
-								<th>Phone Number</th>
-								<th>Show</th>
-								<th>Edit</th>
-								<th>Delete</th>
-						</tr>
+					<tr>
+						<th>Username</th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Email Address</th>
+						<th>Address</th>
+						<th>Phone Number</th>
+						<th>Show</th>
+						<th>Edit</th>
+						<th>Delete</th>
+					</tr>
 				</thead>
 
 				<tbody>
@@ -82,7 +82,7 @@
 				</tbody>
 			</table>
 		<?php } else { ?>
-				<blockquote>No users found.</blockquote>
+			<blockquote>No users found.</blockquote>
 		<?php }
 	?>
 </form>

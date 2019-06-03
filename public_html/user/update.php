@@ -67,6 +67,10 @@
 
 <h2>Edit a user</h2>
 
+<?php if (isset($_POST['submit']) && $statement) {
+	echo escape($_POST['Username']); ?> successfully updated
+<?php } ?>
+
 <form method="post">
 	<?php foreach ($user as $key => $value) : 
 		if ($key == "Id") { ?>
