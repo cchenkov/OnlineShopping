@@ -16,7 +16,7 @@
 
 			$user = $statement->fetch();
 		} catch (PDOException $error) {
-				echo $sql . "<br>" . $error->getMessage();
+			echo $sql . "<br>" . $error->getMessage();
 		}
 	} else {
 		echo "Something went wrong!";

@@ -25,9 +25,10 @@
 
       $statement = $connection->prepare($sql);
       $statement->execute($new_product);
-      
+
     } catch(PDOException $error) {
       echo $sql . "<br>" . $error->getMessage();
+      exit;
     }
   }
 

@@ -1,76 +1,78 @@
 <?php
-    require "../common.php";
-    require "../config.php";
-    $conn = mysqli_connect($host, $username, $password, $dbname);
-	
-		if(!$conn){
-			echo 'Connection error: '. mysqli_connect_error();
-		} 
-		else {
-			if(isset($_GET['Id'])){
-				$Id = mysqli_real_escape_string($conn, $_GET['Id']);
-				$sql = "SELECT * FROM Product WHERE Id = $Id";
-				$result = mysqli_query($conn, $sql);
-				$product = mysqli_fetch_assoc($result);
-			}
+  require "../common.php";
+  require "../config.php";
+  $conn = mysqli_connect($host, $username, $password, $dbname);
 
-			if (isset($_POST['submit'])) {
-				try {
-					$connection = new PDO($dsn, $username, $password, $options);
+	if(!$conn){
+		echo 'Connection error: '. mysqli_connect_error();
+	}
+	else {
+		if(isset($_GET['Id'])){
+			$Id = mysqli_real_escape_string($conn, $_GET['Id']);
+			$sql = "SELECT * FROM Product WHERE Id = $Id";
+			$result = mysqli_query($conn, $sql);
+			$product = mysqli_fetch_assoc($result);
+		}
+
+		if (isset($_POST['submit'])) {
+			try {
+				$connection = new PDO($dsn, $username, $password, $options);
+			$product_id = mysqli_real_escape_string($connection, $_GET['Id']);
+				$new_comment = array(
+					"Message" => $_POST['comment'],
+					"ProductId" => $_GET['Id']
+				);
+				$sql = sprintf(
+					"INSERT INTO %s (%s) values (%s)",
+					"Comment",
+					implode(", ", array_keys($new_comment)),
+					":" . implode(", :", array_keys($new_comment))
+				);
+				$statement = $connection->prepare($sql);
+				$statement->execute($new_comment);
+			} catch(PDOException $error) {
+				echo $sql . "<br>" . $error->getMessage();
+        exit;
+			}
+		}
+		if (isset($_POST['rate'])) {
+			try {
+				$connection = new PDO($dsn, $username, $password, $options);
 				$product_id = mysqli_real_escape_string($connection, $_GET['Id']);
-					$new_comment = array(
-						"Message" => $_POST['comment'],
-						"ProductId" => $_GET['Id']
-					);
-					$sql = sprintf(
-						"INSERT INTO %s (%s) values (%s)",
-						"Comment",
-						implode(", ", array_keys($new_comment)),
-						":" . implode(", :", array_keys($new_comment))
-					);
-					$statement = $connection->prepare($sql);
-					$statement->execute($new_comment);
-				} catch(PDOException $error) {
-					echo $sql . "<br>" . $error->getMessage();
-				}
+
+				$new_rating = array(
+					"Value" => $_POST['rating'],
+					"ProductId" => $_GET['Id']
+				);
+
+				$sql = sprintf(
+					"INSERT INTO %s (%s) values (%s)",
+					"Rating",
+					implode(", ", array_keys($new_rating)),
+					":" . implode(", :", array_keys($new_rating))
+				);
+
+				$statement = $connection->prepare($sql);
+				$statement->execute($new_rating);
+
+			} catch(PDOException $error) {
+				echo $sql . "<br>" . $error->getMessage();
+        exit;
 			}
-			if (isset($_POST['rate'])) {
-				try {
-					$connection = new PDO($dsn, $username, $password, $options);
-					$product_id = mysqli_real_escape_string($connection, $_GET['Id']);
+		}
+		if(isset($_POST['delete'])){
+			$id_to_delete = mysqli_real_escape_string($conn, $_POST['id_to_delete']);
 
-					$new_rating = array(
-						"Value" => $_POST['rating'],
-						"ProductId" => $_GET['Id']
-					);
+			$sql = "DELETE FROM Product WHERE Id = $id_to_delete";
 
-					$sql = sprintf(
-						"INSERT INTO %s (%s) values (%s)",
-						"Rating",
-						implode(", ", array_keys($new_rating)),
-						":" . implode(", :", array_keys($new_rating))
-					);
-
-					$statement = $connection->prepare($sql);
-					$statement->execute($new_rating);
-
-				} catch(PDOException $error) {
-					echo $sql . "<br>" . $error->getMessage();
-				}
+			if(mysqli_query($conn, $sql)){
+				header('Location: index.php');
 			}
-			if(isset($_POST['delete'])){
-				$id_to_delete = mysqli_real_escape_string($conn, $_POST['id_to_delete']);
-
-				$sql = "DELETE FROM Product WHERE Id = $id_to_delete";
-
-				if(mysqli_query($conn, $sql)){
-						header('Location: index.php');
-				}
-				else {
-						echo 'query error:'. mysqli_error($conn);
-				}
+			else {
+				echo 'query error:'. mysqli_error($conn);
 			}
-    }
+		}
+  }
 ?>
 
 <!DOCTYPE html>
@@ -113,8 +115,8 @@
             <input type="submit" name="delete" value="Delete">
         </form>
 
-    <?php else: ?> 
-      <h5>Doesnt exist!</h5> 
+    <?php else: ?>
+      <h5>Doesnt exist!</h5>
     <?php endif; ?>
 
 	<?php if (isset($_POST['submit']) && $statement) {
@@ -139,7 +141,7 @@
 	</form>
 	<?php echo "<a href=\"all_comments.php?product_id=".$_GET['Id']."\">View comments</a>";?>
 	<br>
-	<a href="index.php?Id=<?php echo $Id; ?>">Back to home</a> 
+	<a href="index.php?Id=<?php echo $Id; ?>">Back to home</a>
 </body>
 
 <?php include "templates/footer.php"; ?>

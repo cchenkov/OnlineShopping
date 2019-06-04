@@ -7,7 +7,7 @@
 	if (isset($_POST["submit"])) {
 		try {
 			$connection = new PDO($dsn, $username, $password, $options);
-	
+
 			$id = $_POST["submit"];
 
 			$sql = "DELETE FROM User WHERE Id = :id";
@@ -20,6 +20,7 @@
 			$success = "User successfully deleted";
 		} catch(PDOException $error) {
 			echo $sql . "<br>" . $error->getMessage();
+			exit;
 		}
 	}
 
@@ -34,6 +35,7 @@
 		$result = $statement->fetchAll();
 	} catch (PDOException $error) {
 		echo $sql . "<br>" . $error->getMessage();
+		exit;
 	}
 ?>
 

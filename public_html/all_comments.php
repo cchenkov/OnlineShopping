@@ -13,9 +13,10 @@
 		$statement->execute();
 
 		$result = $statement->fetchAll();
-	  	
+
 	} catch(PDOException $error) {
 	  echo $sql . "<br>" . $error->getMessage();
+		exit;
 	}
 
 ?>
@@ -23,7 +24,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-	
+
 		<style type="text/css">
     	table {
 		  border-collapse: collapse;
@@ -60,7 +61,7 @@
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-		<?php else: ?> 
+		<?php else: ?>
 	    <h5>Doesnt exist!</h5>
 	  <?php endif; ?>
 

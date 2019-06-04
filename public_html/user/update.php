@@ -16,7 +16,8 @@
 									Password = :password,
 									Address = :address,
 									PhoneNumber = :phonenumber
-							WHERE Id = :userId";
+							WHERE Id = :userId
+							";
 
 			$statement = $connection->prepare($sql);
 
@@ -27,7 +28,7 @@
 			$statement->bindValue(":email", $_POST['Email']);
 			$statement->bindValue(":password", $_POST['Password']);
 			$statement->bindValue(":address", $_POST['Address']);
-			$statement->bindValue(":phonenumber", $_POST['PhoneNumber']);    
+			$statement->bindValue(":phonenumber", $_POST['PhoneNumber']);
 
 			// can't seem to make it work
 
@@ -35,6 +36,7 @@
 
 		} catch(PDOException $error) {
 			echo $sql . "<br>" . $error->getMessage();
+			exit;
 		}
 	}
 
@@ -72,10 +74,10 @@
 <?php } ?>
 
 <form method="post">
-	<?php foreach ($user as $key => $value) : 
+	<?php foreach ($user as $key => $value) :
 		if ($key == "Id") { ?>
 			<input type="hidden" name="<?php echo $key; ?>" id="<?php echo $key; ?>" value="<?php echo escape($value); ?>">
-		<?php 
+		<?php
 			continue;
 		}
 		?>
