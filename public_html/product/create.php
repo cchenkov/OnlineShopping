@@ -1,8 +1,8 @@
 <?php
 
   if (isset($_POST['submit'])) {
-    require "../config.php";
-    require "../common.php";
+    require "../../config.php";
+    require "../../common.php";
 
     try {
       $connection = new PDO($dsn, $username, $password, $options);
@@ -65,6 +65,6 @@
 </form>
 
 <br>
-<a href="index.php">Back to home</a>
+<a href="../index.php">Back to home</a>
 
 <?php include "templates/footer.php"; ?>
