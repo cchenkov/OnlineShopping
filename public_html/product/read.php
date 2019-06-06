@@ -1,6 +1,6 @@
 <?php
-	require '../config.php';
-	require '../common.php';
+	require "../../config.php";
+	require "../../common.php";
 
 	$conn = mysqli_connect($host, $username, $password, $dbname);
 
@@ -16,7 +16,7 @@
 		while ($row = $result->fetch_assoc()) {
 			echo "<h1>Name:</h1>" . $row["ProductName"] ."<br> ".
 			 $row["ImageSource"]."<br> ".
-			 '<a href="details.php?Id=' . $row["Id"] . '">More Info</a><br>'.
+			 '<a href="../details.php?Id=' . $row["Id"] . '">More Info</a><br>'.
 			"<br><h3> Price: </h3>" .  $row["Price"]. "<p>-------------------------</p><br>
 			<br><br>";
 		}
@@ -27,4 +27,4 @@
 	mysqli_close($conn);
 ?>
 
-<a href="index.php">Back to home</a>
+<a href="../index.php">Back to home</a>

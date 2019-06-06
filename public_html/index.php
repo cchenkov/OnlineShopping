@@ -8,10 +8,10 @@
 		<a href="user/read.php"><strong>Read User</strong></a>
 	</li>
 	<li>
-		<a href="createProduct.php"><strong>Create Product</strong></a>
+		<a href="product/create.php"><strong>Create Product</strong></a>
 	</li>
 	<li>
-		<a href="readProducts.php"><strong>Read Products</strong></a>
+		<a href="product/read.php"><strong>Read Products</strong></a>
 	</li>
 </ul>
 
