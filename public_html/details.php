@@ -109,6 +109,7 @@
         <p>Stock: <?php echo htmlspecialchars($product['Stock']); ?></p>
         <p>Price: <?php echo htmlspecialchars($product['Price']); ?></p>
         <p>Image:</p>
+				<a href="product/update.php?Id=<?php echo $Id; ?>">Update</a>
 
         <form action="details.php" method="POST">
             <input type="hidden" name="id_to_delete" value="<?php echo $product['Id'] ?>">

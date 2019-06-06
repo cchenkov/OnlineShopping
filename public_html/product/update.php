@@ -2,64 +2,96 @@
 	require "../../config.php";
 	require "../../common.php";
 
-    $conn = mysqli_connect($host, $username, $password, $dbname);
-	
-	if(!$conn){
-		echo 'Connection error: '. mysqli_connect_error();
-    }else{
+	if (isset($_POST['submit'])) {
+		try {
 
-        if(isset($_GET['Id'])){
-            $Id = mysqli_real_escape_string($conn, $_GET['Id']);
+			$connection = new PDO($dsn, $username, $password, $options);
 
-            $sql = "SELECT * FROM Product WHERE Id = $Id";
+			$sql = "UPDATE Product
+							SET Id = :ProductId,
+									ProductName = :name,
+									ProductType = :type,
+									Description = :description,
+									Stock = :stock,
+									Price = :price,
+									ImageSource = :imgsrc
+							WHERE Id = :ProductId
+							";
 
-            $result = mysqli_query($conn, $sql);
+			$statement = $connection->prepare($sql);
 
-            $product = mysqli_fetch_assoc($result);//for one record
-            
+			$statement->bindValue(":ProductId", $_POST['Id']);
+            $statement->bindValue(":name", $_POST['ProductName']);
+            $statement->bindValue(":type", $_POST['ProductType']);
+			$statement->bindValue(":description", $_POST['Description']);
+			$statement->bindValue(":stock", $_POST['Stock']);
+			$statement->bindValue(":price", $_POST['Price']);
+			$statement->bindValue(":imgsrc", $_POST['ImageSource']);
 
-        }
-        
-        if(isset($_POST['edit'])){
-            $Id = $_POST['Id'];
-            $name = $_POST['ProductName'];
-            $type = $_POST['ProductType'];
-            $desc = $_POST['Description'];
-            $stock = $_POST['Stock'];
-            $price = $_POST['Price'];
 
-            mysql_query("UPDATE Product SET ProductType = '$type', ProductName = '$name', Description = '$desc', Stock = '$stock', Price = '$price' WHERE id = $id");
 
-        }
+			$statement->execute();
 
-    }
+		} catch(PDOException $error) {
+			echo $sql . "<br>" . $error->getMessage();
+			exit;
+		}
+	}
+
+	if (isset($_GET['Id'])) {
+		try {
+
+			$connection = new PDO($dsn, $username, $password, $options);
+
+			$ProductId = $_GET['Id'];
+
+			$sql = "SELECT * FROM Product WHERE Id = :ProductId";
+
+			$statement = $connection->prepare($sql);
+			$statement->bindValue(':ProductId', $ProductId);
+			$statement->execute();
+
+			$product = $statement->fetch(PDO::FETCH_ASSOC);
+
+		} catch(PDOException $error) {
+			echo $sql . "<br>" . $error->getMessage();
+		}
+	} else {
+		echo "Something went wrong! GET";
+		exit;
+	}
 
 ?>
 
-<?php include "templates/header.php"; ?>
-<h2>Update a Product</h2>
+<?php require "../templates/header.php"; ?>
+
+<h2>Edit a product</h2>
+
+<?php if (isset($_POST['submit']) && $statement) {
+	echo escape($_POST['ProductName']); ?> successfully updated
+<?php } ?>
 
 <form method="post">
-  <label for="name">Name</label>
-  <input type="text" name="name" id="name">
-  <br>
-  <label for="type">Type</label>
-  <input type="text" name="type" id="type">
-  <br>
-  <label for="description">Description</label>
-  <input type="text" name="description" id="description">
-  <br>
-  <label for="stock">Stock</label>
-  <input type="number" name="stock" id="stock">
-  <br>
-  <label for="price">Price</label>
-  <input type="number" name="price" id="price">
- 
-  <br>
-  <input type="submit" name="edit" value="Update">
+	<?php foreach ($product as $key => $value) :
+		if ($key == "Id") { ?>
+			<input type="hidden" name="<?php echo $key; ?>" id="<?php echo $key; ?>" value="<?php echo escape($value); ?>">
+		<?php
+			continue;
+		}
+		?>
+		<label for="<?php echo $key; ?>">
+			<?php echo ucfirst($key); ?>
+		</label>
+		<input type="text" name="<?php echo $key; ?>" id="<?php echo $key; ?>" value="<?php echo escape($value); ?>">
+		<br>
+	<?php endforeach; ?>
+	<br>
+	<input type="submit" name="submit" value="Submit">
+
 </form>
 
 <br>
+
 <a href="../index.php">Back to home</a>
 
-<?php include "templates/footer.php"; ?>
+<?php require "../templates/footer.php"; ?>
