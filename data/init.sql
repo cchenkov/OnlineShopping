@@ -21,7 +21,8 @@ CREATE TABLE Product (
   Description VARCHAR(100) NOT NULL,
   Stock INT NOT NULL,
   Price INT NOT NULL,
-  ImageSource VARCHAR(50) NOT NULL
+  ImageSource VARCHAR(255) NOT NULL
+  data BLOB NOT NULL
 );
 
 CREATE TABLE ProductOrder (
