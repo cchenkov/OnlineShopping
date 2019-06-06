@@ -2,11 +2,11 @@
 	require "../config.php";
 	require "../common.php";
 
-	if (isset($_GET["id"])) {
+	if (isset($_GET["comment_id"])) {
 		try {
 			$connection = new PDO($dsn, $username, $password, $options);
 
-			$id = $_GET["id"];
+			$id = mysqli_real_escape_string($conn, $_POST['id']);
 
 			$sql = "DELETE FROM Comment WHERE Id = :id";
 
