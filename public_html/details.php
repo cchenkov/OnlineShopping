@@ -17,7 +17,6 @@
 		if (isset($_POST['submit'])) {
 			try {
 				$connection = new PDO($dsn, $username, $password, $options);
-			$product_id = mysqli_real_escape_string($connection, $_GET['Id']);
 				$new_comment = array(
 					"Message" => $_POST['comment'],
 					"ProductId" => $_GET['Id']
@@ -46,7 +45,7 @@
 				);
 
 				$sql = sprintf(
-					"INSERT INTO %s (%s) values (%s)",
+					"INSERT INTO %s (%s) VALUES (%s)",
 					"Rating",
 					implode(", ", array_keys($new_rating)),
 					":" . implode(", :", array_keys($new_rating))
@@ -124,7 +123,7 @@
 	  echo escape($_POST['name']); ?> successfully added
 	<?php } ?>
 
-  <form method="POST">
+  	<form method="POST">
 		<label for="comment">Add Comment</label>
 		<textarea name="comment" rows="5" cols="40"></textarea>
 		<br>
@@ -142,7 +141,7 @@
 	</form>
 	<?php echo "<a href=\"all_comments.php?product_id=".$_GET['Id']."\">View comments</a>";?>
 	<br>
-	<a href="index.php?Id=<?php echo $Id; ?>">Back to home</a>
+	<a href="index.php?Id=.$_GET['Id'].">Back to home</a>
 </body>
 
 <?php include "templates/footer.php"; ?>
