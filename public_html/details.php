@@ -65,7 +65,7 @@
 			$sql = "DELETE FROM Product WHERE Id = $id_to_delete";
 
 			if(mysqli_query($conn, $sql)){
-				header('Location: index.php');
+				header('Location: product/read.php');
 			}
 			else {
 				echo 'query error:'. mysqli_error($conn);
