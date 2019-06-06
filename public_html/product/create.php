@@ -1,34 +1,36 @@
 <?php
 
-if (isset($_POST['submit'])) {
-  require "../config.php";
-  require "../common.php";
+  if (isset($_POST['submit'])) {
+    require "../../config.php";
+    require "../../common.php";
 
-  try {
-    $connection = new PDO($dsn, $username, $password, $options);
+    try {
+      $connection = new PDO($dsn, $username, $password, $options);
 
-    $new_product = array(
-      "ProductName" => $_POST['name'],
-      "ProductType" => $_POST['type'],
-      "Description" => $_POST['description'],
-      "Stock" => $_POST['stock'],
-      "Price" => $_POST['price'],
-      "ImageSource" => $_POST['imgsrc']
-    );
+      $new_product = array(
+        "ProductName" => $_POST['name'],
+        "ProductType" => $_POST['type'],
+        "Description" => $_POST['description'],
+        "Stock" => $_POST['stock'],
+        "Price" => $_POST['price'],
+        "ImageSource" => $_POST['imgsrc']
+      );
 
-    $sql = sprintf(
-      "INSERT INTO %s (%s) values (%s)",
-      "Product",
-      implode(", ", array_keys($new_product)),
-      ":" . implode(", :", array_keys($new_product))
-    );
+      $sql = sprintf(
+        "INSERT INTO %s (%s) values (%s)",
+        "Product",
+        implode(", ", array_keys($new_product)),
+        ":" . implode(", :", array_keys($new_product))
+      );
 
-    $statement = $connection->prepare($sql);
-    $statement->execute($new_product);
-  } catch(PDOException $error) {
-    echo $sql . "<br>" . $error->getMessage();
+      $statement = $connection->prepare($sql);
+      $statement->execute($new_product);
+
+    } catch(PDOException $error) {
+      echo $sql . "<br>" . $error->getMessage();
+      exit;
+    }
   }
-}
 
 ?>
 
@@ -63,6 +65,6 @@ if (isset($_POST['submit'])) {
 </form>
 
 <br>
-<a href="index.php">Back to home</a>
+<a href="../index.php">Back to home</a>
 
 <?php include "templates/footer.php"; ?>

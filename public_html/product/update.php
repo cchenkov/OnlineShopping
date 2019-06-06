@@ -1,6 +1,6 @@
 <?php
-    require '../config.php';
-    require '../common.php';
+	require "../../config.php";
+	require "../../common.php";
 
     $conn = mysqli_connect($host, $username, $password, $dbname);
 	
@@ -60,6 +60,6 @@
 </form>
 
 <br>
-<a href="index.php">Back to home</a>
+<a href="../index.php">Back to home</a>
 
 <?php include "templates/footer.php"; ?>
