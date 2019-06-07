@@ -13,6 +13,12 @@
 	<li>
 		<a href="product/read.php"><strong>Read Products</strong></a>
 	</li>
+	<li>
+		<a href="cart/create.php"><strong>Create Cart</strong></a>
+	</li>
+	<li>
+		<a href="cart/read.php"><strong>See Cart</strong></a>
+	</li>
 </ul>
 
 <?php include "templates/footer.php"; ?>
