@@ -14,7 +14,11 @@
 
 	if ($result->num_rows > 0) {
 		while ($row = $result->fetch_assoc()) {
-            echo $row["UserId"] . '<a href="../user/show.php?id=' . $row["UserId"]  . '"> Profile </a>' . 
+            echo "<h3>Quantity:</h3>" . $row["Quantity"] . "<br> ProfileId=" .$row["UserId"] . 
+            '<a href="../user/show.php?id=' . $row["UserId"]  .
+             '"> Profile </a>' . "<br>" . "PoductId=" .
+            $row["ProductId"] .  '<a href="../details.php?Id=' . $row["ProductId"]  . '"> Product </a>' .
+            
             "<br> 
             <br>";
 
