@@ -1,4 +1,7 @@
 <?php
+	session_start();
+
+	require '../../lib/password.php';
 	require "../../config.php";
 	require "../../common.php";
 
@@ -7,25 +10,45 @@
 		try {
 			$connection = new PDO($dsn, $username, $password, $options);
 
-			$new_user = array(
-				"Username" => $_POST['username'],
-				"FirstName" => $_POST['firstname'],
-				"LastName" => $_POST['lastname'],
-				"Email" => $_POST['email'],
-				"Password" => $_POST['password'],
-				"Address" => $_POST['address'],
-				"PhoneNumber" => $_POST['phone']
-			);
-
-			$sql = sprintf(
-				"INSERT INTO %s (%s) values (%s)",
-				"User",
-				implode(", ", array_keys($new_user)),
-				":" . implode(", :", array_keys($new_user))
-			);
-
+			$sql = "SELECT COUNT(Username) AS Num FROM User WHERE Username = :username";
 			$statement = $connection->prepare($sql);
-			$statement->execute($new_user);
+			
+			$statement->bindValue(':username', $_POST['username']);
+			
+			$statement->execute();
+			
+			$row = $statement->fetch(PDO::FETCH_ASSOC);
+			
+			if($row['Num'] > 0){
+				die('That username already exists!');
+			}
+			else {
+				$passwordHash = password_hash($_POST['password'], PASSWORD_BCRYPT, array("cost" => 12));
+
+				$new_user = array(
+					"Username" => $_POST['username'],
+					"FirstName" => $_POST['firstname'],
+					"LastName" => $_POST['lastname'],
+					"Email" => $_POST['email'],
+					"Password" => $passwordHash,
+					"Address" => $_POST['address'],
+					"PhoneNumber" => $_POST['phone']
+				);
+
+				$sql = sprintf(
+					"INSERT INTO %s (%s) values (%s)",
+					"User",
+					implode(", ", array_keys($new_user)),
+					":" . implode(", :", array_keys($new_user))
+				);
+
+				$statement = $connection->prepare($sql);
+				$result = $statement->execute($new_user);
+
+				if ($result) {
+					echo escape('Thank you for your registration');
+				}
+			}
 
 		} catch(PDOException $error) {
 			echo $sql . "<br>" . $error->getMessage();
