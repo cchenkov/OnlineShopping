@@ -21,13 +21,13 @@ CREATE TABLE Product (
   Description VARCHAR(100) NOT NULL,
   Stock INT NOT NULL,
   Price INT NOT NULL,
-  ImageSource VARCHAR(255) NOT NULL
+  ImageSource VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE ProductOrder (
   Id INT AUTO_INCREMENT PRIMARY KEY,
-  UserId INT,
-  ProductId INT,
+  UserId INT NOT NULL,
+  ProductId INT NOT NULL,
   Quantity INT NOT NULL,
   ApprovalStatus VARCHAR(10) NOT NULL,
 
@@ -37,8 +37,8 @@ CREATE TABLE ProductOrder (
 
 CREATE TABLE Cart (
 	Id INT AUTO_INCREMENT PRIMARY KEY,
-  UserId INT,
-  ProductId INT,
+  UserId INT NOT NULL,
+  ProductId INT NOT NULL,
   Quantity INT NOT NULL,
 
   FOREIGN KEY (UserId) REFERENCES User(Id),
