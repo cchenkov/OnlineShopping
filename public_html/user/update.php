@@ -4,20 +4,19 @@
 
 	if (isset($_POST['submit'])) {
 		try {
-
 			$connection = new PDO($dsn, $username, $password, $options);
 
 			$sql = "UPDATE User
-							SET Id = :userId,
-									Username = :username,
-									FirstName = :firstname,
-									LastName = :lastname,
-									Email = :email,
-									Password = :password,
-									Address = :address,
-									PhoneNumber = :phonenumber
-							WHERE Id = :userId
-							";
+					SET Id = :userId,
+						Username = :username,
+						FirstName = :firstname,
+						LastName = :lastname,
+						Email = :email,
+						Password = :password,
+						Address = :address,
+						PhoneNumber = :phonenumber
+					WHERE Id = :userId
+					";
 
 			$statement = $connection->prepare($sql);
 
@@ -29,8 +28,6 @@
 			$statement->bindValue(":password", $_POST['Password']);
 			$statement->bindValue(":address", $_POST['Address']);
 			$statement->bindValue(":phonenumber", $_POST['PhoneNumber']);
-
-			// can't seem to make it work
 
 			$statement->execute();
 

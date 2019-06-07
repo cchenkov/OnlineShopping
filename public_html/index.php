@@ -30,6 +30,9 @@
 		<li>
 			<a href="cart/read.php"><strong>View Cart</strong></a>
 		</li>
+		<li>
+			<a href="order/read.php"><strong>View your orders</strong></a>
+		</li>
 
 		<br>
 

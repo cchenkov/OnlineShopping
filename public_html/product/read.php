@@ -101,8 +101,8 @@
 							<td><?php echo escape($row["ProductName"]); ?></td>
 							<td><?php echo escape($row["Price"]); ?></td>
 							<td><?php echo escape($row["ImageSource"]); ?></td>
-							<td><a href="../details.php?Id= <?php echo $row["Id"];?> "> Details </a></td>
-							<td><button type="submit" name="add_to_cart" value="<?php echo $row["Id"];?>">Add to cart</button></td>
+							<td><a href="../details.php?Id= <?php echo $row["Id"]; ?>">Details</a></td>
+							<td><button type="submit" name="add_to_cart" value="<?php echo $row["Id"]; ?>">Add to cart</button></td>
 							<td><button type="submit" name="delete" value="<?php echo $row["Id"]; ?>">Delete</button></td>
 						</tr>
 					<?php } ?>

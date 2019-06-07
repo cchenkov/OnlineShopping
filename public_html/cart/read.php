@@ -59,8 +59,9 @@
 		if (isset($_SESSION['user_id'])) {
 			$connection = new PDO($dsn, $username, $password, $options);
 
-			$sql = "SELECT c.Id AS Id, p.ProductName AS product, c.Quantity AS quantity, p.Price AS price FROM Cart c
-					INNER JOIN Product p
+			$sql = "SELECT c.Id AS Id, p.Id AS productId, p.ProductName AS product, c.Quantity AS quantity, p.Price AS price
+					FROM Cart c
+					LEFT JOIN Product p ON c.ProductId = p.Id
 					WHERE c.UserId = :userid";
 	
 			$statement = $connection->prepare($sql);
@@ -97,6 +98,7 @@
 						<th>Product</th>
 						<th>Quantity</th>
 						<th>Price</th>
+						<th>Edit</th>
 						<th>Order</th>
 						<th>Remove</th>
 					</tr>
@@ -108,7 +110,8 @@
 							<td><?php echo escape($row["product"]); ?></td>
 							<td><?php echo escape($row["quantity"]); ?></td>
 							<td><?php echo escape($row["price"]); ?></td>
-							<td><button type="submit" name="order" value="<?php echo $row["Id"]; ?>">Order</button></td>
+							<td><a href="update.php?id=<?php echo $row["Id"]; ?>">Edit</a></td>
+							<td><button type="submit" name="order" value="<?php echo $row["productId"]; ?>">Order</button></td>
 							<td><button type="submit" name="delete" value="<?php echo $row["Id"]; ?>">Delete</button></td>
 						</tr>
 					<?php } ?>
