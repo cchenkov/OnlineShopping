@@ -1,4 +1,6 @@
 <?php
+	session_start();
+
   require "../common.php";
   require "../config.php";
   $conn = mysqli_connect($host, $username, $password, $dbname);
@@ -14,51 +16,56 @@
 			$product = mysqli_fetch_assoc($result);
 		}
 
-		if (isset($_POST['submit'])) {
-			try {
-				$connection = new PDO($dsn, $username, $password, $options);
-				$new_comment = array(
-					"Message" => $_POST['comment'],
-					"ProductId" => $_GET['Id']
-				);
-				$sql = sprintf(
-					"INSERT INTO %s (%s) values (%s)",
-					"Comment",
-					implode(", ", array_keys($new_comment)),
-					":" . implode(", :", array_keys($new_comment))
-				);
-				$statement = $connection->prepare($sql);
-				$statement->execute($new_comment);
-			} catch(PDOException $error) {
-				echo $sql . "<br>" . $error->getMessage();
-        exit;
+		if (isset($_SESSION['user_id'])) {
+			if (isset($_POST['submit'])) {
+				try {
+					$connection = new PDO($dsn, $username, $password, $options);
+					$new_comment = array(
+						"Message" => $_POST['comment'],
+						"ProductId" => $_GET['Id'],
+						"UserId" => $_SESSION['user_id']
+					);
+					$sql = sprintf(
+						"INSERT INTO %s (%s) values (%s)",
+						"Comment",
+						implode(", ", array_keys($new_comment)),
+						":" . implode(", :", array_keys($new_comment))
+					);
+					$statement = $connection->prepare($sql);
+					$statement->execute($new_comment);
+				} catch(PDOException $error) {
+					echo $sql . "<br>" . $error->getMessage();
+					exit;
+				}
+			}
+			if (isset($_POST['rate'])) {
+				try {
+					$connection = new PDO($dsn, $username, $password, $options);
+					$product_id = mysqli_real_escape_string($connection, $_GET['Id']);
+	
+					$new_rating = array(
+						"Value" => $_POST['rating'],
+						"ProductId" => $_GET['Id'],
+						"UserId" => $_SESSION['user_id']
+					);
+	
+					$sql = sprintf(
+						"INSERT INTO %s (%s) VALUES (%s)",
+						"Rating",
+						implode(", ", array_keys($new_rating)),
+						":" . implode(", :", array_keys($new_rating))
+					);
+	
+					$statement = $connection->prepare($sql);
+					$statement->execute($new_rating);
+	
+				} catch(PDOException $error) {
+					echo $sql . "<br>" . $error->getMessage();
+					exit;
+				}
 			}
 		}
-		if (isset($_POST['rate'])) {
-			try {
-				$connection = new PDO($dsn, $username, $password, $options);
-				$product_id = mysqli_real_escape_string($connection, $_GET['Id']);
-
-				$new_rating = array(
-					"Value" => $_POST['rating'],
-					"ProductId" => $_GET['Id']
-				);
-
-				$sql = sprintf(
-					"INSERT INTO %s (%s) VALUES (%s)",
-					"Rating",
-					implode(", ", array_keys($new_rating)),
-					":" . implode(", :", array_keys($new_rating))
-				);
-
-				$statement = $connection->prepare($sql);
-				$statement->execute($new_rating);
-
-			} catch(PDOException $error) {
-				echo $sql . "<br>" . $error->getMessage();
-        exit;
-			}
-		}
+	
 		if(isset($_POST['delete'])){
 			$id_to_delete = mysqli_real_escape_string($conn, $_POST['id_to_delete']);
 
@@ -108,7 +115,9 @@
         <p>Stock: <?php echo htmlspecialchars($product['Stock']); ?></p>
         <p>Price: <?php echo htmlspecialchars($product['Price']); ?></p>
         <p>Image:</p>
+				<br>
 				<a href="product/update.php?Id=<?php echo $Id; ?>">Update</a>
+				<br>
 
         <form action="details.php" method="POST">
             <input type="hidden" name="id_to_delete" value="<?php echo $product['Id'] ?>">
@@ -123,8 +132,12 @@
 	  echo escape($_POST['name']); ?> successfully added
 	<?php } ?>
 
-  	<form method="POST">
+	<br>
+	<br>
+
+	<form method="POST">
 		<label for="comment">Add Comment</label>
+		<br>
 		<textarea name="comment" rows="5" cols="40"></textarea>
 		<br>
 		<br>
@@ -132,7 +145,8 @@
 		<br>
 		<br>
 		<label for="rating">Rating</label>
-			<input type="number" name="rating" id="rating" min="1" max="5">
+		<br>
+		<input type="number" name="rating" id="rating" min="1" max="5">
 		<br>
 		<br>
 		<input type="submit" name="rate" value="Rate">

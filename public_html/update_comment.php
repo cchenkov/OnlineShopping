@@ -5,15 +5,19 @@
 	if (isset($_POST['submit'])) {
 	  try {
 	    $connection = new PDO($dsn, $username, $password, $options);
-	    $cmt =[
-	      "Id" => $_POST['id'],
-	      "Message" => $_POST['comment'],
-	    ];
 
 	    $sql = "UPDATE Comment
 	            SET Id = :id,
 	              	Message = :comment
-	            WHERE Id = :id";
+							WHERE Id = :id";
+							
+			$statement = $connection->prepare($sql);
+			$statement->bindValue(':id', $_POST['id']);
+			$statement->bindValue(':comment', $_POST['comment']);
+			$statement->execute();
+
+			header("Location: index.php");
+			
 	  } catch(PDOException $error) {
 	    echo $sql . "<br>" . $error->getMessage();
 	  }
@@ -39,14 +43,13 @@
 	}
 ?>
 
-<h2>Edit a user</h2>
+<h2>Edit comment</h2>
 
 <form method="post">
-    <?php foreach ($comment as $key => $value) : ?>
-      <label for="<?php echo $key; ?>"><?php echo ucfirst($key); ?></label>
-      <input type="text" name="<?php echo $key; ?>" id="<?php echo $key; ?>" value="<?php echo escape($value); ?>" <?php echo ($key === 'id' ? 'readonly' : null); ?>>
-      <br>
-      <br>
-    <?php endforeach; ?>
+		<label for="Comment">Comment</label>
+		<input type="hidden" name="id" id="id" value="<?php echo $comment["Id"]; ?>">
+		<input type="text" name="comment" id="comment" value="<?php echo $comment["Message"]; ?>">
+		<br>
+		<br>
     <input type="submit" name="submit" value="Submit">
 </form>

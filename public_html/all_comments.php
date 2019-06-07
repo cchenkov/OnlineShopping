@@ -22,9 +22,13 @@
 	}
 	try {
 
-	  	$connection = new PDO($dsn, $username, $password, $options);
+	  $connection = new PDO($dsn, $username, $password, $options);
 		$product_id = $_GET['product_id'];
-		$sql = "SELECT * FROM Comment WHERE ProductId = $product_id";
+		$sql = "SELECT c.Id AS id, c.Message AS comment_message, p.ProductName AS product_name, u.Username AS username FROM Comment c
+						LEFT JOIN Product p ON c.ProductId = p.Id
+						LEFT JOIN User u ON c.UserId = u.Id
+						WHERE ProductId = $product_id";
+
 		$result = mysqli_query($conn, $sql);
 		$comment = mysqli_fetch_assoc($result);
 
@@ -32,6 +36,7 @@
 		$statement->execute();
 
 		$result = $statement->fetchAll();
+		$productName = $result[0]["product_name"];
 
 	} catch(PDOException $error) {
 	  echo $sql . "<br>" . $error->getMessage();
@@ -61,11 +66,11 @@
 	<body>
 		<form method="post">
 			<?php if($result && $statement->rowCount() > 0): ?>
-			<center><h1>Product Comments</h1></center>
+			<h1>Comments for <?php echo $productName; ?> </h1>
 			<table>
 				<thead>
 				    <tr>
-				      <th>#</th>
+							<th>User</th>
 				      <th>Comment</th>
 				      <th>Edit</th>
 				      <th>Delete</th>
@@ -74,16 +79,16 @@
 				<tbody>
 					<?php foreach ($result as $row) : ?>
 					<tr>
-					  <td><?php echo htmlspecialchars($row['Id']); ?></td>
-					  <td><?php echo htmlspecialchars($row['Message']); ?></td>
-					  <td><a href="update_comment.php?id=<?php echo $row["Id"]; ?>">Edit</a></td>
-					  <td><button type="submit" name="submit" value="<?php echo $row["Id"]; ?>">Delete</button></td>
+						<td><?php echo $row['username']; ?></td>
+					  <td><?php echo htmlspecialchars($row['comment_message']); ?></td>
+					  <td><a href="update_comment.php?id=<?php echo $row["id"]; ?>">Edit</a></td>
+					  <td><button type="submit" name="submit" value="<?php echo $row["id"]; ?>">Delete</button></td>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>
 			</table>
 			<?php else: ?>
-		    <h5>Doesnt exist!</h5>
+		    <h1>There are no comments</h1>
 		  <?php endif; ?>
 		</form>
 		<br>
